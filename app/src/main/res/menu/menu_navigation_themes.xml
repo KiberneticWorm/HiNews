@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/item_themes"
+            android:title="@string/themes_title">
+            <menu>
+
+                <group
+                    android:id="@+id/group_themes"
+                    android:checkableBehavior="single">
+
+                    <item
+                        android:id="@+id/item_mystery_of_space"
+                        android:title="@string/mystery_of_space_title"
+                        android:icon="@drawable/ic_mystery_of_space" />
+
+                    <item
+                        android:id="@+id/item_art_intel"
+                        android:title="@string/art_intel_title"
+                        android:icon="@drawable/ic_art_intel" />
+
+                    <item
+                        android:id="@+id/item_medicina"
+                        android:title="@string/medicina_title"
+                        android:icon="@drawable/ic_hospital" />
+
+                    <item
+                        android:id="@+id/item_health"
+                        android:checkable="true"
+                        android:title="@string/healph_title"
+                        android:icon="@drawable/ic_healthy" />
+
+                    <item
+                        android:id="@+id/item_musk"
+                        android:title="@string/ilon_mask_title"
+                        android:icon="@drawable/ic_ilon_mask" />
+
+                    <item
+                        android:id="@+id/item_tesla"
+                        android:checkable="true"
+                        android:title="@string/tesla_title"
+                        android:icon="@drawable/ic_tesla" />
+
+                    <item
+                        android:id="@+id/item_mars"
+                        android:title="@string/mars_title"
+                        android:icon="@drawable/ic_mars" />
+
+                    <item
+                        android:id="@+id/item_roboto_tech"
+                        android:title="@string/roboto_tech_title"
+                        android:icon="@drawable/ic_roboto_tech" />
+
+                    <item
+                        android:id="@+id/item_universe"
+                        android:title="@string/universe_title"
+                        android:icon="@drawable/ic_universe" />
+
+                </group>
+            </menu>
+        </item>
+
+</menu>
