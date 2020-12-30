@@ -3,16 +3,18 @@ package ru.rubt.hinews.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import ru.rubt.hinews.activities.MainActivity
+import ru.rubt.data.di.RemoteModule
 import ru.rubt.hinews.di.modules.DatabaseModule
 import ru.rubt.hinews.di.modules.RetrofitModule
+import ru.rubt.newsfeature.di.HiNewsComponent
+import ru.rubt.newsfeature.di.Subcomponents
 import javax.inject.Singleton
 
 
 @Singleton
 @Component(modules = [
-    RetrofitModule::class,
-    DatabaseModule::class])
+    RetrofitModule::class, RemoteModule::class,
+    DatabaseModule::class, Subcomponents::class])
 interface AppComponent {
 
     @Component.Factory
@@ -20,5 +22,6 @@ interface AppComponent {
         fun create(@BindsInstance ctx: Context): AppComponent
     }
 
-    fun inject(activity: MainActivity)
+    fun hiNewsComponent(): HiNewsComponent.Factory
+
 }

@@ -1,7 +1,6 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -9,13 +8,13 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "ru.rubt.hinews"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -31,15 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        dataBinding true
-    }
 }
 
 dependencies {
 
-    implementation project(':core')
-    implementation project(':mainscreen')
+    implementation project(":core")
     implementation project(':newsfeature')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -50,33 +45,4 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.fragment:fragment-ktx:1.3.0-rc01'
-
-    // Test libs
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    // Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // MaterialSearchView
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-
-    // DI
-    def dagger_version = "2.30.1"
-
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    
-    // Room
-    def room_version = "2.3.0-alpha04"
-
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
-    // Retrofit
-    def retrofit_version = "2.9.0"
-
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 }

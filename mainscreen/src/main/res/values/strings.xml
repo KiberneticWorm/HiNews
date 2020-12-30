@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_view_hint">Поиск</string>
+    <string name="prev_page_title">Страница</string>
+    <string name="next_page_title">Страница</string>
+    <string name="navigation_drawer_open">navigation_open</string>
+    <string name="navigation_drawer_close">navigation_close</string>
+    <string name="mystery_of_space_title">Загадки космоса</string>
+    <string name="art_intel_title">Искуственный интеллект</string>
+    <string name="medicina_title">Медицина</string>
+    <string name="ilon_mask_title">Илон Маск</string>
+    <string name="mars_title">Планета Марс</string>
+    <string name="roboto_tech_title">Робототехника</string>
+    <string name="tesla_title">Tesla</string>
+    <string name="universe_title">Вселенная</string>
+    <string name="healph_title">Здоровье</string>
+
+    <string name="mystery_of_space_theme_id">zagadki-kosmosa</string>
+    <string name="art_intel_theme_id">iskusstvennyj-intellekt</string>
+    <string name="medicina_theme_id">medicina</string>
+    <string name="ilon_mask_theme_id">elon-musk</string>
+    <string name="mars_theme_id">mars</string>
+    <string name="roboto_tech_theme_id">robototexnika</string>
+    <string name="tesla_theme_id">tesla</string>
+    <string name="universe_theme_id">robototexnika</string>
+    <string name="healph_theme_id">zdorove</string>
+
+    <string name="themes_title">Темы</string>
+    <string name="item_search_title">Поиск</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="themes_id">
+        <item>zagadki-kosmosa</item>
+        <item>tesla</item>
+        <item>mars</item>
+        <item>nasa</item>
+        <item>elon-musk</item>
+        <item>vselennaya</item>
+        <item>robototexnika</item>
+        <item>spacex</item>
+        <item>zdorove</item>
+        <item>future</item>
+        <item>medicina</item>
+        <item>iskusstvennyj-intellekt</item>
+        <item>rossiya</item>
+    </string-array>
+</resources>

@@ -1,3 +1,5 @@
-include ':data'
-include ':app', ':data'
+include ':settingsfeature'
+include ':newsfeature'
+include ':mainscreen'
+include ':app', ':core', 'mainscreen', 'newsfeature', 'settingsfeature'
 rootProject.name = "HiNews"

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="update_failed">Не удалось обновить новости из-за проблем с сетью</string>
+</resources>
