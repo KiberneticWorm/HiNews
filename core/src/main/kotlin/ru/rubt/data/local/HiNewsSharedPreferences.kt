@@ -8,4 +8,5 @@ class HiNewsSharedPreferences @Inject constructor(
 ) {
 
 
+
 }

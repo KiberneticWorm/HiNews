@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), StatusErrorListener {
     private fun updateHiNews(theme: String) {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add(R.id.fragment_container_view, HiNewsFragment.newInstance(theme))
+            replace(R.id.fragment_container_view, HiNewsFragment.newInstance(theme))
         }
     }
 
@@ -101,14 +101,17 @@ class MainActivity : AppCompatActivity(), StatusErrorListener {
 
     private fun setupNavigationView() {
         val navNews: NavigationView = findViewById(R.id.nav_view)
+
+        val headerView = navNews.getHeaderView(0)
+
+        val ivNewsThemeImage =
+                headerView.findViewById<ImageView>(R.id.iv_news_theme_image)
+        val tvNewsThemeTitle =
+                headerView.findViewById<TextView>(R.id.tv_news_theme_title)
+
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+
         navNews.setNavigationItemSelectedListener {
-
-            val headerView = navNews.getHeaderView(0)
-
-            val ivNewsThemeImage =
-                    headerView.findViewById<ImageView>(R.id.iv_news_theme_image)
-            val tvNewsThemeTitle =
-                    headerView.findViewById<TextView>(R.id.tv_news_theme_title)
 
             when (it.itemId) {
                 R.id.item_mystery_of_space -> {
@@ -157,6 +160,8 @@ class MainActivity : AppCompatActivity(), StatusErrorListener {
                     updateHiNews(getString(R.string.universe_theme_id))
                 }
             }
+            drawerLayout.closeDrawer(GravityCompat.START)
+
             true
         }
     }

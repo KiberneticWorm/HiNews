@@ -11,6 +11,7 @@ data class HiNewsEntity(
     var author: String,
     var date: String,
     var desc: String,
+    var theme: String,
     var content: String = ""
 ) {
     @PrimaryKey(autoGenerate = true)

@@ -3,6 +3,7 @@ package ru.rubt.hinews.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ru.rubt.data.di.ConverterModule
 import ru.rubt.data.di.RemoteModule
 import ru.rubt.hinews.di.modules.DatabaseModule
 import ru.rubt.hinews.di.modules.RetrofitModule
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     RetrofitModule::class, RemoteModule::class,
-    DatabaseModule::class, Subcomponents::class])
+    ConverterModule::class, DatabaseModule::class,
+    Subcomponents::class])
 interface AppComponent {
 
     @Component.Factory

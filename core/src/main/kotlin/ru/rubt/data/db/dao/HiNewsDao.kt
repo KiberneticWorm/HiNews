@@ -19,4 +19,6 @@ interface HiNewsDao {
     @Query("select * from hi_news_table")
     fun getHiNews(): List<HiNewsEntity>
 
+    @Query("select * from hi_news_table where theme like :theme")
+    fun getHiNewsByTheme(theme: String): List<HiNewsEntity>
 }

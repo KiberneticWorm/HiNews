@@ -2,6 +2,7 @@ package ru.rubt.newsfeature.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +22,19 @@ import ru.rubt.newsfeature.adapters.HiNewsAdapter
 import ru.rubt.newsfeature.databinding.FragmentHiNewsBinding
 import ru.rubt.newsfeature.di.HiNewsComponent
 import ru.rubt.newsfeature.di.HiNewsComponentProvider
+import ru.rubt.newsfeature.di.HiNewsViewModelFactory
 import ru.rubt.newsfeature.fragments.interfaces.StatusErrorListener
 import ru.rubt.newsfeature.fragments.status.EmptyHiNewsStatus
 import ru.rubt.newsfeature.fragments.status.NetworkErrorStatus
 import ru.rubt.newsfeature.viewmodels.HiNewsViewModel
+import javax.inject.Inject
 
 class HiNewsFragment: Fragment() {
 
-    private val hiNewsViewModel: HiNewsViewModel by viewModels()
+    @Inject
+    lateinit var hiNewsViewModelFactory: HiNewsViewModelFactory
+
+    private val hiNewsViewModel by viewModels<HiNewsViewModel> { hiNewsViewModelFactory }
 
     private lateinit var hiNewsComponent: HiNewsComponent
 
@@ -48,10 +54,14 @@ class HiNewsFragment: Fragment() {
                 DataBindingUtil.inflate(inflater, R.layout.fragment_hi_news, container, false)
 
         if (savedInstanceState == null) {
-            initObserverViewModel(fragmentHiNewsBinding)
+
+            loadHiNews(fragmentHiNewsBinding)
+
         } else {
+
             toggleLoading(fragmentHiNewsBinding)
             fragmentHiNewsBinding.rvHiNews.adapter = HiNewsAdapter(hiNewsViewModel.getCachedHiNews())
+
         }
 
         return fragmentHiNewsBinding.root
@@ -63,9 +73,11 @@ class HiNewsFragment: Fragment() {
         fragmentHiNewsBinding.rvHiNews.layoutManager = LinearLayoutManager(requireActivity())
     }
 
-    private fun initObserverViewModel(fragmentHiNewsBinding: FragmentHiNewsBinding) {
+    private fun loadHiNews(fragmentHiNewsBinding: FragmentHiNewsBinding) {
 
-        hiNewsViewModel.getUpdatedHiNews().observe(viewLifecycleOwner, Observer {
+        val theme = requireArguments().getString(EXTRA_THEME) ?: failedTheme()
+
+        hiNewsViewModel.getUpdatedHiNews(theme).observe(viewLifecycleOwner, Observer {
 
             toggleLoading(fragmentHiNewsBinding)
 
@@ -84,15 +96,17 @@ class HiNewsFragment: Fragment() {
         })
     }
 
+    private fun failedTheme(): Nothing = throw Exception("Theme is null!")
+
     companion object {
 
-        private const val THEME_EXTRA = "theme"
+        private const val EXTRA_THEME = "theme"
 
         fun newInstance(theme: String): HiNewsFragment {
 
             val fragment = HiNewsFragment()
 
-            fragment.arguments = bundleOf(THEME_EXTRA to theme)
+            fragment.arguments = bundleOf(EXTRA_THEME to theme)
 
             return fragment
         }

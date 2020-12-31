@@ -8,11 +8,10 @@ import ru.rubt.newsfeature.di.scopes.ShowHiNewsScope
 import javax.inject.Inject
 
 @ShowHiNewsScope
-class HiNewsViewModel: ViewModel() {
+class HiNewsViewModel(
+        private val hiNewsRepository: HiNewsRepository
+): ViewModel() {
 
-    @Inject
-    lateinit var hiNewsRepository: HiNewsRepository
-
-    fun getUpdatedHiNews() = hiNewsRepository.getUpdatedHiNews()
+    fun getUpdatedHiNews(theme: String) = hiNewsRepository.getUpdatedHiNews(theme)
     fun getCachedHiNews() = hiNewsRepository.lstHiNewsEntity
 }
