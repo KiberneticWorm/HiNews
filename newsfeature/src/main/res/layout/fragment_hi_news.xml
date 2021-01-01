@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <FrameLayout
-        android:id="@+id/root"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_hi_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_hi_news"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_load"
-            android:indeterminate="true"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_gravity="center" />
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 
 </layout>

@@ -27,4 +27,5 @@
 
     <string name="themes_title">Темы</string>
     <string name="item_search_title">Поиск</string>
+    <string name="update_snack_action">Обновить</string>
 </resources>

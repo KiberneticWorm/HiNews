@@ -7,8 +7,9 @@ import ru.rubt.data.di.ConverterModule
 import ru.rubt.data.di.RemoteModule
 import ru.rubt.hinews.di.modules.DatabaseModule
 import ru.rubt.hinews.di.modules.RetrofitModule
-import ru.rubt.newsfeature.di.HiNewsComponent
-import ru.rubt.newsfeature.di.Subcomponents
+import ru.rubt.mainscreen.di.HiNewsActivityComponent
+import ru.rubt.mainscreen.di.Subcomponents
+import ru.rubt.newsfeature.di.HiNewsFragmentComponent
 import javax.inject.Singleton
 
 
@@ -24,6 +25,7 @@ interface AppComponent {
         fun create(@BindsInstance ctx: Context): AppComponent
     }
 
-    fun hiNewsComponent(): HiNewsComponent.Factory
+    fun hiNewsActivityComponent(): HiNewsActivityComponent.Factory
+    fun hiNewsFragmentComponent(): HiNewsFragmentComponent.Factory
 
 }

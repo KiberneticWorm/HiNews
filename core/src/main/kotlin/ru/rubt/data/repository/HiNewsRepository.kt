@@ -1,6 +1,5 @@
 package ru.rubt.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
@@ -28,43 +27,44 @@ class HiNewsRepository @Inject constructor(
     private val accessKey = accessKeyManager.getAccessKey()
 
     var currPageStatus = ""
-    var lstHiNewsEntity: List<HiNewsEntity> = listOf()
 
-    fun getUpdatedHiNews(theme: String): LiveData<UpdateState> {
+    var lstCachedHiNews: List<HiNewsEntity> = listOf()
+
+    fun updateHiNews(theme: String): LiveData<UpdateState> {
         val data = MutableLiveData<UpdateState>()
 
         CoroutineScope(Dispatchers.IO).async {
 
+            var hiNews: List<HiNewsEntity>
+
             try {
 
-                updateHiNews(theme)
-                Log.d("TEST_", "sfsdfds")
-                val hiNews = getHiNewsByTheme(theme)
-                Log.d("TEST_", "received ${hiNews.size}")
-                Log.d("TEST_", "dfgjdfiogjdf")
-                data.postValue(UpdatedHiNewsState(hiNews))
+                refreshHiNews(theme)
 
-                lstHiNewsEntity = hiNews
+                hiNews = getHiNewsByTheme(theme)
+
+                data.postValue(UpdatedHiNewsState)
 
             } catch (exc: Exception) {
 
-                Log.d("TEST_", exc.message.toString())
-
-                val hiNews = getHiNewsByTheme(theme)
+                hiNews = getHiNewsByTheme(theme)
 
                 if (hiNews.isEmpty()) {
                     data.postValue(EmptyHiNewsState)
                 } else {
-                    data.postValue(NoUpdatedHiNewsState(hiNews))
+                    data.postValue(FailedUpdatedHiNewsState)
                 }
 
             }
+
+            lstCachedHiNews = hiNews
+
         }
         return data
     }
 
     @Throws
-    private fun updateHiNews(theme: String) {
+    private fun refreshHiNews(theme: String) {
 
         val hiNewsResponse = hiNewsService.getHiNews(accessKey, theme)
 

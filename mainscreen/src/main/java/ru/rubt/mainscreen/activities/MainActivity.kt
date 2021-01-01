@@ -9,28 +9,46 @@ import android.view.Menu
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.add
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import ru.rubt.data.remote.model.HiNews
+import ru.rubt.data.remote.states.EmptyHiNewsState
+import ru.rubt.data.remote.states.FailedUpdatedHiNewsState
+import ru.rubt.data.remote.states.UpdatedHiNewsState
 import ru.rubt.mainscreen.R
-import ru.rubt.mainscreen.interfaces.ShowErrorListener
+import ru.rubt.mainscreen.di.HiNewsActivityComponent
+import ru.rubt.mainscreen.di.HiNewsActivityComponentProvider
+import ru.rubt.newsfeature.di.HiNewsViewModelFactory
+import ru.rubt.newsfeature.fragments.EmptyNewsFragment
 import ru.rubt.newsfeature.fragments.HiNewsFragment
-import ru.rubt.newsfeature.fragments.interfaces.StatusErrorListener
-import ru.rubt.newsfeature.fragments.status.EmptyHiNewsStatus
-import ru.rubt.newsfeature.fragments.status.NetworkErrorStatus
-import ru.rubt.newsfeature.fragments.status.StatusError
+import ru.rubt.newsfeature.fragments.LoadingFragment
+import ru.rubt.newsfeature.viewmodels.HiNewsViewModel
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), StatusErrorListener {
+//StatusErrorListener
+class MainActivity : AppCompatActivity()  {
+
+    @Inject
+    lateinit var hiNewsViewModelFactory: HiNewsViewModelFactory
+
+    private val hiNewsViewModel by viewModels<HiNewsViewModel> { hiNewsViewModelFactory }
+
+    lateinit var hiNewsComponent: HiNewsActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        hiNewsComponent = (application as HiNewsActivityComponentProvider)
+            .provideHiNewsActivityComponent()
+        hiNewsComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -41,24 +59,41 @@ class MainActivity : AppCompatActivity(), StatusErrorListener {
 
     }
 
-    override fun showStatus(statusError: StatusError) {
-//        when (statusError) {
-//            is EmptyHiNewsStatus -> {
-//
-//            }
-//            is NetworkErrorStatus -> {
-//
-//            }
-//        }
-        showError(statusError.message)
+    private fun updateHiNews(theme: String) {
+        makeFragmentTransaction(LoadingFragment())
+        hiNewsViewModel.updateHiNews(theme).observe(this, Observer {
+            when (it) {
+                is FailedUpdatedHiNewsState -> {
+                    showFailedUpdate(theme)
+                }
+                is EmptyHiNewsState -> {
+                    makeFragmentTransaction(EmptyNewsFragment())
+                }
+                is UpdatedHiNewsState -> {
+                    makeFragmentTransaction(HiNewsFragment.newInstance(theme))
+                }
+            }
+        })
     }
 
-    private fun updateHiNews(theme: String) {
+    private fun makeFragmentTransaction(fragment: Fragment) {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, HiNewsFragment.newInstance(theme))
+            replace(R.id.fragment_container_view, fragment)
         }
     }
+
+//    override fun showStatus(statusError: StatusError) {
+////        when (statusError) {
+////            is EmptyHiNewsStatus -> {
+////
+////            }
+////            is NetworkErrorStatus -> {
+////
+////            }
+////        }
+//        showError(statusError.message)
+//    }
 
     override fun onBackPressed() {
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -178,9 +213,10 @@ class MainActivity : AppCompatActivity(), StatusErrorListener {
         toggle.syncState()
     }
 
-    private fun showError(msg: Int) {
-        val msgError = getString(msg)
-        Snackbar.make(findViewById(R.id.root_layout), msgError, Snackbar.LENGTH_LONG)
-                .show()
-    }
+    private fun showFailedUpdate(theme: String) =
+        Snackbar.make(findViewById(R.id.root_layout), R.string.update_failed, Snackbar.LENGTH_LONG)
+            .setAction(R.string.update_snack_action) {
+                updateHiNews(theme)
+            }.show()
+
 }
